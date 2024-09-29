@@ -10,38 +10,43 @@ int *coeficiente;
 
 Polinomio * creaPolinomio(int);
 void setCoef(int , int , Polinomio *);
-void mostrarPolinomio(Polinomio *);
+void mostrarPolinomio(Polinomio *, int);
 int getCoef(int, Polinomio *);
+Polinomio * sum(Polinomio*, Polinomio *);
 
-int orden = 0;
+int orden = 0, ordenDos = 0;
 
 int main()
 {
 
     srand(time(NULL)); // Inicializao srand
 
-    Polinomio *p;
+    Polinomio *p , *otroP;
     
 
-    //Ingreso el coeficiente maximo del polinomio
+    //Ingreso el orden maximo del polinomio
     printf("Ingrese orden del polinomio \n");
     scanf("%d", &orden);
-
     p = creaPolinomio(orden);
-    mostrarPolinomio(p);
+    
+
+    //Ingreso el orden maximo del polinomio
+    printf("Ingrese orden del segundo polinomio \n");
+    scanf("%d", &ordenDos);
+    otroP = creaPolinomio(ordenDos);
+
+    mostrarPolinomio(p, orden);
     printf("\n");
-    setCoef(2,3,p);
-    mostrarPolinomio(p);;
-    printf("\n");
-    printf("%d", getCoef(1,p));
+    mostrarPolinomio(otroP, ordenDos);
     printf("\n");
     
+    mostrarPolinomio(sum(p,otroP),ordenDos);
 
     return 0;
 }
 
 //  Imprime el polinomio en pantalla
-void mostrarPolinomio(Polinomio *p)
+void mostrarPolinomio(Polinomio *p, int orden)
 {
 
     for(int i=0 ; i <= orden ; i++)
@@ -74,7 +79,25 @@ void setCoef (int n, int c, Polinomio *p)
     p->coeficiente[n - 1] = c;
 }
 
+// Retorna un coeficiente especifico de un polinomio / n es la posc / p* el polinomio
 int getCoef(int n, Polinomio *p)
 {
     return p->coeficiente[n - 1];
 }
+
+Polinomio * sum(Polinomio *pUno, Polinomio *pDos)
+{   
+    Polinomio *polinomioSuma;
+    polinomioSuma = (struct Polinomio *)malloc(sizeof(Polinomio));
+    polinomioSuma->coeficiente = (int *)malloc((ordenDos + 1) * orden);
+
+    for (int i = 0; i <= orden; i++)
+    {
+        polinomioSuma->coeficiente[i] = pUno->coeficiente[i] + pDos->coeficiente[i];
+    }
+    
+    return polinomioSuma;
+}
+
+
+
