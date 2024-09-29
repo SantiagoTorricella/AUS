@@ -13,6 +13,8 @@ void setCoef(int , int , Polinomio *);
 void mostrarPolinomio(Polinomio *, int);
 int getCoef(int, Polinomio *);
 Polinomio * sum(Polinomio*, Polinomio *);
+Polinomio * mult(Polinomio*,Polinomio *);
+void destruyePolinomio(Polinomio *);
 
 int orden = 0, ordenDos = 0;
 
@@ -37,11 +39,7 @@ int main()
 
     mostrarPolinomio(p, orden);
     printf("\n");
-    mostrarPolinomio(otroP, ordenDos);
-    printf("\n");
     
-    mostrarPolinomio(sum(p,otroP),ordenDos);
-
     return 0;
 }
 
@@ -89,9 +87,9 @@ Polinomio * sum(Polinomio *pUno, Polinomio *pDos)
 {   
     Polinomio *polinomioSuma;
     polinomioSuma = (struct Polinomio *)malloc(sizeof(Polinomio));
-    polinomioSuma->coeficiente = (int *)malloc((ordenDos + 1) * orden);
+    polinomioSuma->coeficiente = (int *)malloc((ordenDos + 1) * ordenDos);
 
-    for (int i = 0; i <= orden; i++)
+    for (int i = 0; i <= ordenDos; i++)
     {
         polinomioSuma->coeficiente[i] = pUno->coeficiente[i] + pDos->coeficiente[i];
     }
@@ -99,5 +97,20 @@ Polinomio * sum(Polinomio *pUno, Polinomio *pDos)
     return polinomioSuma;
 }
 
+Polinomio * mult(Polinomio *pUno, Polinomio *pDos)
+{
+    Polinomio *pMult;
+    pMult = (struct Polinomio *)malloc(sizeof(Polinomio));
+    pMult->coeficiente = (int *)malloc((ordenDos + 1)* ordenDos);
 
+    for (int i = 0; i <= ordenDos; i++)
+    {
+        pMult->coeficiente[i] = pUno->coeficiente[i] * pDos->coeficiente[i];
+    }
+    return pMult;
+}
 
+void destruyePolinomio(Polinomio *p)
+{
+    free(p);
+}
