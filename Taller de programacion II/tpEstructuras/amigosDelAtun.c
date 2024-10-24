@@ -11,22 +11,27 @@ void insertar (char[10], Legislador **i);
 void listar (Legislador *i );
 void eliminar(char[10], Legislador **i);
 int miembro(char[10], Legislador *i);
+void liberaLista(Legislador **i);
 void cargarVotacion(Legislador **i, Legislador **j);
 
 
 
 int main()
 {
-    Legislador *chicos_buenos, *chicos_malos;
-    chicos_buenos = NULL;
-    chicos_malos = NULL;
+    Legislador *chicos_buenos  = NULL, *chicos_malos = NULL;
 
+    
     cargarVotacion(&chicos_buenos,&chicos_malos);
 
     printf("Lista de Senadores Buenos \n");
     listar(chicos_buenos);
+
     printf("Lista de Senadores Malos \n");
     listar(chicos_malos);
+
+    liberaLista(&chicos_buenos);
+    liberaLista(&chicos_buenos);    
+    
     return 0;
 }
 
@@ -79,13 +84,13 @@ void eliminar ( char nombre[10] , Legislador ** i ) {
         printf ( " No existe el elemento a eliminar \n " ) ;
     else {
         if (strcmp((* i )->nombreLegislador, nombre) == 0) { // elimino al primero
-        printf ( " Elimino a %s \n " , nombre ) ;
+        
         Legislador * aux = (* i ) ;
         (* i ) = (* i ) -> sgte ;
         free ( aux ) ;
     } else if (strcmp((* i )->nombreLegislador,nombre) < 0 && (* i ) -> sgte != NULL &&
                     strcmp((* i )-> sgte-> nombreLegislador,nombre) == 0) { // elimino al siguiente
-            printf ( " Elimino a %s \n " , nombre ) ;
+            
             Legislador * aux = (* i )->sgte ;
             (* i )->sgte = (* i )->sgte->sgte ;
             free( aux ) ;
@@ -116,47 +121,61 @@ void cargarVotacion(Legislador **chicosBuenos, Legislador **chicosMalos)
 
     while (tipoDeVoto != 'e' && tipoDeVoto != 'E')
     {
-        printf("%c \n",tipoDeVoto);
-        printf("Ingrese Votacion del Senador \n");
-        scanf("%c",&tipoDeVoto);
-        printf("%c \n",tipoDeVoto);
-        switch (tipoDeVoto)
+        printf("\nVoto: ( \"E|e\" = fin)\n>"); 
+        scanf(" %c",&tipoDeVoto); 
+     
+       switch(tipoDeVoto)
         {
         case 'f': case 'F':
-            printf("%c \n",tipoDeVoto);
-            printf("Ingrese Nombre del Senador \n");
-            scanf("%9s",&nombreDelSenador[10]);
-        
-            if( miembro(nombreDelSenador,*chicosBuenos) == 0 ) // chequeo que no este en la lista ya
-            {
-                printf("Senador Bueno \n");
-                insertar(nombreDelSenador , chicosBuenos);
-                eliminar(nombreDelSenador , chicosMalos);
-            }    
-        break;
-        
-        case 'd': case 'D': 
-            printf("%c \n",tipoDeVoto);
-            printf("Ingrese Nombre del Senador \n");
-            scanf("%9s",&nombreDelSenador[10]);
 
-            if( miembro(nombreDelSenador,*chicosMalos) == 0 ) // chequeo que no este en la lista ya
+            printf("Nombre:\n>");
+            scanf("%s",nombreDelSenador);
+
+            if( miembro(nombreDelSenador, *chicosMalos) == 0)  
             {
-                printf("Senador Malo");
-                insertar(nombreDelSenador , chicosMalos);
-                eliminar(nombreDelSenador , chicosMalos);
-            }  
+                insertar(nombreDelSenador,chicosBuenos);
+            }
+            else 
+            {
+                printf("\nEl legislador \"%s\" cambio de lista.\n", nombreDelSenador);
+                eliminar( nombreDelSenador,chicosMalos);
+                insertar( nombreDelSenador, chicosBuenos);
+            }
+            break;
+
+        case 'd': case 'D': 
+
+            printf("Nombre:\n>");
+            scanf("%s",nombreDelSenador);
+
+            if( miembro(nombreDelSenador, *chicosBuenos) == 0 ) 
+            {
+                insertar(nombreDelSenador, chicosMalos);
+            }
+            else                               
+            {
+                printf("\nEl legislador \"%s\" cambio de Lista.\n", nombreDelSenador);
+                eliminar(nombreDelSenador,chicosBuenos);
+                insertar(nombreDelSenador, chicosMalos);
+            }
+
         break;
-        
-        case 'e': case 'E':
+
+        case 'e': case 'E': 
         break;
 
         default:
-        printf("%c \n",tipoDeVoto);
-        printf("Ingrese datos validos \n");
+            printf("\n Ingreasar un tipo de dato valido.\n VALIDOS: (f, d, e)\n"); 
         }
-        
-       
+    }
+}
 
+void liberaLista(Legislador **listLeg)
+{
+    while (*listLeg != NULL)
+    {
+        Legislador *temp = *listLeg;      
+        *listLeg = (*listLeg)->sgte; 
+        free(temp);                       
     }
 }
