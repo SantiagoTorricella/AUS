@@ -64,14 +64,14 @@ void insertar ( char nombre[10] , Legislador ** i )
         } 
         else if (strcmp((* i ) -> nombreLegislador,nombre) < 0 && 
                  (* i )->sgte != NULL && 
-                 strcmp((* i)->sgte-> nombreLegislador, nombre ) > 0) //cuando esta entre dos
+                 strcmp((* i)->sgte-> nombreLegislador, nombre ) > 0) 
             {  
                 Legislador * nuevo = ( Legislador *) malloc ( sizeof ( Legislador ) ) ;
                 nuevo->nombreLegislador = malloc(sizeof(char) * 20);
                 strcpy(nuevo->nombreLegislador,nombre);
                 nuevo->sgte = (* i ) -> sgte ;
                 (* i )->sgte = nuevo ;
-            } 
+            }
             else if ((* i ) -> nombreLegislador == nombre )
             printf ( " Ya existe el elemento %s en la Legislador \n " , nombre ) ;
     else
@@ -83,13 +83,13 @@ void eliminar ( char nombre[10] , Legislador ** i ) {
     if (* i == NULL )
         printf ( " No existe el elemento a eliminar \n " ) ;
     else {
-        if (strcmp((* i )->nombreLegislador, nombre) == 0) { // elimino al primero
+        if (strcmp((* i )->nombreLegislador, nombre) == 0) { 
         
         Legislador * aux = (* i ) ;
         (* i ) = (* i ) -> sgte ;
         free ( aux ) ;
     } else if (strcmp((* i )->nombreLegislador,nombre) < 0 && (* i ) -> sgte != NULL &&
-                    strcmp((* i )-> sgte-> nombreLegislador,nombre) == 0) { // elimino al siguiente
+                    strcmp((* i )-> sgte-> nombreLegislador,nombre) == 0) { 
             
             Legislador * aux = (* i )->sgte ;
             (* i )->sgte = (* i )->sgte->sgte ;
@@ -178,4 +178,4 @@ void liberaLista(Legislador **listLeg)
         *listLeg = (*listLeg)->sgte; 
         free(temp);                       
     }
-}
+} 
