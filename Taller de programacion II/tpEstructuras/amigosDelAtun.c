@@ -21,8 +21,12 @@ int main()
     chicos_buenos = NULL;
     chicos_malos = NULL;
 
-    
+    cargarVotacion(&chicos_buenos,&chicos_malos);
 
+    printf("Lista de Senadores Buenos \n");
+    listar(chicos_buenos);
+    printf("Lista de Senadores Malos \n");
+    listar(chicos_malos);
     return 0;
 }
 
@@ -39,19 +43,16 @@ void insertar ( char nombre[10] , Legislador ** i )
 {
     if (*i == NULL ) 
     {
-        printf ( " Insertando %s en la Legislador \n " , nombre ) ;
         *i = ( Legislador *) malloc ( sizeof ( Legislador ) ) ; 
-        (*i)->nombreLegislador = malloc(sizeof(char) * (strlen(nombre) + 1 ) );
+        (*i)->nombreLegislador = malloc(sizeof(char) * 20);
         strcpy((*i)->nombreLegislador, nombre);
-        *(*i)->nombreLegislador;
     } 
     else 
     {
         if (strcmp((* i ) -> nombreLegislador,nombre) > 0 )   // cuando va al inicio 
         {                      
-            printf ( " Insertando %s en la Legislador \n " , nombre ) ;
             Legislador * nuevo = ( Legislador *) malloc ( sizeof ( Legislador ) ) ;
-            nuevo->nombreLegislador = malloc(sizeof(char) * (strlen(nombre) + 1 ));
+            nuevo->nombreLegislador = malloc(sizeof(char) * 20);
             strcpy(nuevo->nombreLegislador,nombre);
             nuevo->sgte = * i ;
             *i = nuevo;
@@ -60,9 +61,8 @@ void insertar ( char nombre[10] , Legislador ** i )
                  (* i )->sgte != NULL && 
                  strcmp((* i)->sgte-> nombreLegislador, nombre ) > 0) //cuando esta entre dos
             {  
-                printf ( " Insertando %s en la Legislador \n " , nombre ) ;
                 Legislador * nuevo = ( Legislador *) malloc ( sizeof ( Legislador ) ) ;
-                nuevo->nombreLegislador = malloc(sizeof(char) * (strlen(nombre) + 1 ));
+                nuevo->nombreLegislador = malloc(sizeof(char) * 20);
                 strcpy(nuevo->nombreLegislador,nombre);
                 nuevo->sgte = (* i ) -> sgte ;
                 (* i )->sgte = nuevo ;
@@ -107,7 +107,56 @@ int miembro (char nombre[10], Legislador *i)
     return 0;
 }
 
-void cargaVotacion(Legislador **chicosBuenos, Legislador *chicosMalos)
+void cargarVotacion(Legislador **chicosBuenos, Legislador **chicosMalos)
 {
+    char tipoDeVoto = 'a';
+    char nombreDelSenador[10];
+    
+    printf("Comienza la votacion en la SPIA \n");
 
+    while (tipoDeVoto != 'e' && tipoDeVoto != 'E')
+    {
+        printf("%c \n",tipoDeVoto);
+        printf("Ingrese Votacion del Senador \n");
+        scanf("%c",&tipoDeVoto);
+        printf("%c \n",tipoDeVoto);
+        switch (tipoDeVoto)
+        {
+        case 'f': case 'F':
+            printf("%c \n",tipoDeVoto);
+            printf("Ingrese Nombre del Senador \n");
+            scanf("%9s",&nombreDelSenador[10]);
+        
+            if( miembro(nombreDelSenador,*chicosBuenos) == 0 ) // chequeo que no este en la lista ya
+            {
+                printf("Senador Bueno \n");
+                insertar(nombreDelSenador , chicosBuenos);
+                eliminar(nombreDelSenador , chicosMalos);
+            }    
+        break;
+        
+        case 'd': case 'D': 
+            printf("%c \n",tipoDeVoto);
+            printf("Ingrese Nombre del Senador \n");
+            scanf("%9s",&nombreDelSenador[10]);
+
+            if( miembro(nombreDelSenador,*chicosMalos) == 0 ) // chequeo que no este en la lista ya
+            {
+                printf("Senador Malo");
+                insertar(nombreDelSenador , chicosMalos);
+                eliminar(nombreDelSenador , chicosMalos);
+            }  
+        break;
+        
+        case 'e': case 'E':
+        break;
+
+        default:
+        printf("%c \n",tipoDeVoto);
+        printf("Ingrese datos validos \n");
+        }
+        
+       
+
+    }
 }
