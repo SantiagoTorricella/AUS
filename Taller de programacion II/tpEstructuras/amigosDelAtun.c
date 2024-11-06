@@ -98,7 +98,7 @@ void eliminar ( char nombre[10] , Legislador ** i ) {
     else
             eliminar (nombre , &(* i ) -> sgte ) ;
     }
- }
+}
 
 int miembro (char nombre[10], Legislador *i)
 {
