@@ -12,7 +12,7 @@ int *cabeza;
 
 int main() 
 {
-
+return 0;
 
 
 
