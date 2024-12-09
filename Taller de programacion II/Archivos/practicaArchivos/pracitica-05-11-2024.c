@@ -177,80 +177,59 @@ int main()
             }
         }
     }
-} */
+} 
 
 
+*/
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_LINE_LENGTH 1024
+typedef struct
+{
+    char nombreProducto[50];
+    float precioDeVenta;
+}Producto;
 
-void replaceWordInLine(const char *line, const char *oldWord, const char *newWord, char *result) {
-    char *pos, temp[MAX_LINE_LENGTH];
-    int index = 0;
-    int oldWordLen = strlen(oldWord);
-
-    // Copy the original line into temp
-    strcpy(temp, line);
-
-    // Initialize result as an empty string
-    result[0] = '\0';
-
-    while ((pos = strstr(temp, oldWord)) != NULL) {
-        // Copy the text before the old word
-        int len = pos - temp;
-        strncat(result, temp, len);
-        result[len + index] = '\0';  // Null-terminate result
-
-        // Append the new word
-        strcat(result, newWord);
-
-        // Update index and temp
-        index += len + strlen(newWord);
-        strcpy(temp, pos + oldWordLen);
-    }
-
-    // Append the rest of the line
-    strcat(result, temp);
+void crearProductos(Producto *prod)
+{
+    printf("Ingresar nombre producto:");
+    scanf("%s",prod->nombreProducto);
+    printf("\nIngresar valor producto:");
+    scanf("%f",&prod->precioDeVenta);
 }
 
-int main() {
-    FILE *inputFile, *outputFile;
-    char line[MAX_LINE_LENGTH];
-    char modifiedLine[MAX_LINE_LENGTH];
-    const char *oldWord = "Merca";
-    const char *newWord = "Keta";
+void mostrarProductos(Producto prod)
+{
+    printf("\nEl nombre del producto es: %s",prod.nombreProducto);
+    printf("\nEl precio del producto es: %f",prod.precioDeVenta);
+}
 
-    // Open the input file
-    inputFile = fopen("document.txt", "r");
-    if (inputFile == NULL) {
-        perror("Error opening file 'document.txt'");
-        return EXIT_FAILURE;
-    }
+float calcularPrecios(Producto prod)
+{
+    float sumaPrecios;
+    sumaPrecios += prod.precioDeVenta;
+    return sumaPrecios;
+}
 
-    // Open the output file
-    outputFile = fopen("updated_document.txt", "w");
-    if (outputFile == NULL) {
-        perror("Error opening file 'updated_document.txt'");
-        fclose(inputFile);
-        return EXIT_FAILURE;
-    }
 
-    // Process each line in the file
-    while (fgets(line, MAX_LINE_LENGTH, inputFile) != NULL) {
-        // Replace the word in the current line
-        replaceWordInLine(line, oldWord, newWord, modifiedLine);
 
-        // Write the modified line to the output file
-        fprintf(outputFile, "%s", modifiedLine);
-    }
+int main()
+{
+Producto prods[2];
+float sumaTotalPrecios = 0;
 
-    fclose(inputFile);
-    fclose(outputFile);
+for(int i = 0 ; i < 2 ; i++)
+{
+    crearProductos(&(prods[i]));
+    mostrarProductos(prods[i]);
+}
 
-    printf("The word '%s' has been replaced with '%s' in 'updated_document.txt'.\n", oldWord, newWord);
+for(int j = 0 ; j < 2 ; j++)
+{
+    sumaTotalPrecios = calcularPrecios(prods[j]);
+}
 
-    return EXIT_SUCCESS;
+
+printf("La suma total de precios es:\t%f", sumaTotalPrecios);
+
 }
