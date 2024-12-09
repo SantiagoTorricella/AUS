@@ -181,7 +181,7 @@ int main()
 
 
 */
-
+/* 
 #include <stdio.h>
 
 typedef struct
@@ -232,4 +232,78 @@ for(int j = 0 ; j < 2 ; j++)
 
 printf("La suma total de precios es:\t%f", sumaTotalPrecios);
 
+}
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LINEA 1024  // Longitud máxima de una línea del archivo
+
+// Función para reemplazar todas las ocurrencias de una palabra en una línea
+void reemplazarPalabra(const char *linea, const char *vieja, const char *nueva, char *resultado) {
+    const char *pos = linea;  // Puntero para recorrer la línea original
+    char *escritura = resultado;  // Puntero para construir la línea modificada
+
+    size_t lenVieja = strlen(vieja);
+    size_t lenNueva = strlen(nueva);
+
+    while ((pos = strstr(pos, vieja)) != NULL) {
+        // Copiar la parte de la línea antes de la palabra encontrada
+        size_t lenAntes = pos - linea;
+        strncpy(escritura, linea, lenAntes);
+        escritura += lenAntes;
+
+        // Copiar la palabra nueva
+        strcpy(escritura, nueva);
+        escritura += lenNueva;
+
+        // Avanzar después de la palabra encontrada
+        pos += lenVieja;
+        linea = pos;
+    }
+
+    // Copiar el resto de la línea que no fue modificado
+    strcpy(escritura, linea);
+}
+
+int main() {
+    const char *archivoEntrada = "documento.txt";
+    const char *archivoSalida = "documento_modificado.txt";
+    const char *viejaPalabra = "vieja";
+    const char *nuevaPalabra = "nueva";
+
+    // Abrir el archivo de entrada
+    FILE *entrada = fopen(archivoEntrada, "r");
+    if (entrada == NULL) {
+        perror("Error al abrir el archivo de entrada");
+        return 1;
+    }
+
+    // Abrir el archivo de salida
+    FILE *salida = fopen(archivoSalida, "w");
+    if (salida == NULL) {
+        perror("Error al abrir el archivo de salida");
+        fclose(entrada);
+        return 1;
+    }
+
+    char linea[MAX_LINEA];
+    char lineaModificada[MAX_LINEA];
+
+    // Leer el archivo línea por línea
+    while (fgets(linea, MAX_LINEA, entrada)) {
+        // Reemplazar palabras en la línea
+        reemplazarPalabra(linea, viejaPalabra, nuevaPalabra, lineaModificada);
+
+        // Escribir la línea modificada en el archivo de salida
+        fputs(lineaModificada, salida);
+    }
+
+    // Cerrar los archivos
+    fclose(entrada);
+    fclose(salida);
+
+    printf("El archivo ha sido procesado y guardado como '%s'.\n", archivoSalida);
+    return 0;
 }
