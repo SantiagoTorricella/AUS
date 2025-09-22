@@ -1,0 +1,59 @@
+-- CONSULTAS SQL: 
+
+-- 1: 
+
+SELECT e.Nombre AS Empresa, COUNT(*) AS Cantidad_servicios
+FROM Viaje v
+JOIN Colectivo c ON v.Id_colectivo = c.Id
+JOIN Empresa e ON c.Id_empresa = e.Id
+JOIN Viaje_Parada vp_origen ON v.Id = vp_origen.Id_viaje AND vp_origen.Orden = 1
+JOIN Viaje_Parada vp_destino ON v.Id = vp_destino.Id_viaje
+JOIN Paradas p_origen ON vp_origen.Id_parada = p_origen.Id
+JOIN Paradas p_destino ON vp_destino.Id_parada = p_destino.Id
+WHERE p_origen.Nombre = 'Rosario'
+  AND p_destino.Nombre = 'Bariloche'
+  AND vp_destino.Orden = (
+      SELECT MAX(Orden)
+      FROM Viaje_Parada
+      WHERE Id_viaje = v.Id
+  )
+GROUP BY e.Nombre;
+
+-- 2: 
+
+SELECT c.Apellido, c.Nombre, COUNT(p.Id) AS Cantidad_viajes
+FROM Pasaje p
+JOIN Cliente c ON p.Id_cliente = c.Id
+JOIN Viaje v ON p.Id_viaje = v.Id
+WHERE v.Fecha_salida >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+GROUP BY c.Id
+ORDER BY Cantidad_viajes DESC
+LIMIT 3;
+
+-- 3: (Aclaración: Todos los servicios tienen reservas de asientos, por eso no se lista ningún servicio).-
+
+SELECT e.Nombre AS Empresa, v.Fecha_salida,
+       origen.Nombre AS Origen, destino.Nombre AS Destino
+FROM Viaje v
+JOIN Colectivo c ON v.Id_colectivo = c.Id
+JOIN Empresa e ON c.Id_empresa = e.Id
+JOIN Viaje_Parada vp_origen ON v.Id = vp_origen.Id_viaje AND vp_origen.Orden = 1
+JOIN Viaje_Parada vp_destino ON v.Id = vp_destino.Id_viaje
+JOIN Paradas origen ON vp_origen.Id_parada = origen.Id
+JOIN Paradas destino ON vp_destino.Id_parada = destino.Id
+LEFT JOIN Pasaje p ON v.Id = p.Id_viaje
+WHERE vp_destino.Orden = (
+    SELECT MAX(Orden) FROM Viaje_Parada WHERE Id_viaje = v.Id
+)
+  AND p.Id IS NULL;
+
+-- 4: 
+
+SELECT c.Nombre AS Ciudad, p.Nombre AS Provincia
+FROM Ciudad c
+JOIN Provincia p ON c.Id_provincia = p.Id
+WHERE c.Nombre LIKE '%monte%';
+
+
+
+

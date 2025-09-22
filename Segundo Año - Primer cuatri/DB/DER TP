@@ -1,0 +1,40 @@
+┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
+│    PROVINCIA    │         │     CIUDAD      │         │    EMPRESA      │
+├─────────────────┤         ├─────────────────┤         ├─────────────────┤
+│ id_provincia PK │─────────│ id_ciudad PK    │         │ id_empresa PK   │
+│ nombre_provincia│   1:N   │ id_provincia FK │         │ nombre_empresa  │
+└─────────────────┘         │ nombre          │         └─────────────────┘
+                            └─────────────────┘                  │
+                                     │                           │ 1:N
+                                     │ 1:N                       │
+                                     ▼                           ▼
+┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
+│     CLIENTE     │         │      VIAJE      │         │     BONDI       │
+├─────────────────┤         ├─────────────────┤         ├─────────────────┤
+│ id_cliente PK   │         │ id_viaje PK     │         │ id_bondi PK     │
+│ nombre          │         │ id_bondi FK     │─────────│ id_empresa FK   │
+│ apellido        │         │ fecha_salida    │   N:1   │ tiene_dos_pisos │
+│ tipo_doc        │         │                 │         └─────────────────┘
+│ nmro_doc        │         │                 │                  │
+│ fecha_nacimiento│         │                 │                  │
+└─────────────────┘         │ id_ciudad_origen│                  │ 1:N
+         │                  │ id_ciudad_dest. │                  │
+         │ 1:N              └─────────────────┘                  ▼
+         │                           │                  ┌─────────────────┐
+         │                           │ 1:N              │     ASIENTO     │
+         ▼                           ▼                  ├─────────────────┤
+┌─────────────────┐         ┌─────────────────┐         │ id_asiento PK   │
+│     RESERVA     │         │     PARADA      │         │                 │
+├─────────────────┤         ├─────────────────┤         │ tipo_asiento    │
+│ id_reserva PK   │         │ id_parada PK    │         │ planta          │
+│ cliente_id FK   │─────────│                 │         │ numero_asiento  │
+│ asiento_id FK   │   1:1   │ ciudad_id FK    │         │ precio          │
+│ viaje_id        │         │ orden           │         │ estado          │
+│ precio          │         │ distancia_acumulada_km    │                 │  
+│ parada_origen_id│         └─────────────────┘         └─────────────────┘
+│parada_destino_id│                                        
+│                 │                                        
+└─────────────────┘                                           
+        
+                            
+                            

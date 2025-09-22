@@ -1,0 +1,40 @@
+insert into viaje (Id,Id_parada_origen,Id_parada_destino,Id_colectivo,Fecha_salida,Horario_salida,Duracion)
+values
+(1,1,2,1,'2023-10-01','08:00:00',60),
+(2,2,3,2,'2023-10-01','09:00:00',45),
+(3,3,4,1,'2023-10-01','08:00:00',60),
+(4,4,5,2,'2023-10-01','09:00:00',45),
+(5,1,6,1,'2023-10-01','08:00:00',60);
+
+insert into ciudad (Id,Nombre,Id_provincia)
+values
+(1,'Ciudad A',1),
+(2,'Ciudad jejox',1),
+(3,'Ciudad B',1),
+(4,'Ciudad C',2),
+(5,'Ciudad D',2),
+(6,'Ciudad jeje',2),
+(7,'Ciudad E',3),
+(8,'Ciudad F',3),
+(9,'Ciudad nano',3),
+(10,'Ciudad G',4),
+(11,'Ciudad H',4),
+(12,'Ciudad queti',4),
+(13,'Ciudad I',5),
+(14,'Ciudad J',5),
+(15,'Ciudad sapo',5),
+(16,'Ciudad K',6),
+(17,'Ciudad sepa',6),
+(18,'Ciudad L',6),
+(19,'Ciudad Mjo',7),
+(20,'Ciudad M',7),
+(21,'Ciudad N',7),
+(22,'Ciudad O',8),
+(23,'Ciudad P',8),
+(24,'Ciudad h',8),
+(25,'Ciudad Q',9),
+(26,'Ciudad R',9),
+(27,'Ciudad x',9),
+(28,'Ciudad S',10),
+(29,'Ciudad rt',10),
+(30,'Ciudad T',10);

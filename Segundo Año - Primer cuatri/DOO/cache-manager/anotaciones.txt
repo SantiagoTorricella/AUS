@@ -1,0 +1,4 @@
+Trabajo Final de DOO
+Alumno: Santiago Torricella
+
+El tp fue ejecutado en una computador con macOS. Si llega a tener problemas de compilación/ejecucion, puedo complicarlo en una computadora con linux y probar ahi.
