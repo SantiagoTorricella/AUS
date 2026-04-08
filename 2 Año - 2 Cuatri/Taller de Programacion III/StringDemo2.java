@@ -30,7 +30,7 @@ switch (args[0]) {
 
 public class StringDemo2{
     public static void main(String[] args) {
-    long ct = System.currentTimeMillis();
+     long ct = System.currentTimeMillis();
      String a ="";
      for(int i = 0; i < 10000; i++){
         a = a + i;
